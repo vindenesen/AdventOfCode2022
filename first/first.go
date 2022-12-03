@@ -1,7 +1,7 @@
-package main
+package first
 
 import (
-	"AdventOfCode2022/01/elf"
+	"AdventOfCode2022/first/elf"
 	"fmt"
 	"io"
 	"log"
@@ -12,11 +12,9 @@ import (
 )
 
 // File is saved using browser save as
-const listFile = "input"
+const listFile = "first/input"
 
-func main() {
-	fmt.Println("Day 1: Calorie Counting")
-
+func GetElfList() []*elf.Elf {
 	// Make a slice containing our elf's
 	elfs := make([]*elf.Elf, 0)
 
@@ -24,7 +22,9 @@ func main() {
 	file, err := os.Open(listFile)
 	defer func() {
 		err := file.Close()
-		fmt.Println(err)
+		if err != nil {
+			fmt.Println("Err:", err)
+		}
 	}()
 	if err != nil {
 		log.Fatal(err)
@@ -56,6 +56,27 @@ func main() {
 	// Sort list of elf's from the largest calorie count to the smallest
 	sort.Slice(elfs, func(i, j int) bool { return elfs[i].GetTotalCalories() > elfs[j].GetTotalCalories() })
 
+	return elfs
+}
+
+func PrintAnswerOne() {
+	fmt.Println("--- Part One ---")
+	elfs := GetElfList()
+
 	// Print the elf with the most calories
-	fmt.Printf("The elf with the most calories is elf number %d with %d calories\n", elfs[0].Number, elfs[0].GetTotalCalories())
+	fmt.Printf("The elf with the most calories is elf number %d with %d calories\n\n", elfs[0].Number, elfs[0].GetTotalCalories())
+}
+
+func PrintAnswerTwo() {
+	fmt.Println("--- Part Two ---")
+	elfs := GetElfList()
+
+	sum := elfs[0].GetTotalCalories() + elfs[1].GetTotalCalories() + elfs[2].GetTotalCalories()
+	fmt.Printf("The sum of calories which the three elf's with the most calories have is %d\n\n", sum)
+}
+
+func PrintAnswer() {
+	fmt.Println("--- Day 1: Calorie Counting ---")
+	PrintAnswerOne()
+	PrintAnswerTwo()
 }
