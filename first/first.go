@@ -1,7 +1,7 @@
 package first
 
 import (
-	"AdventOfCode2022/first/elf"
+	"AdventOfCode2022/types/elf"
 	"fmt"
 	"io"
 	"log"
@@ -59,7 +59,7 @@ func GetElfList() []*elf.Elf {
 	return elfs
 }
 
-func PrintAnswerOne() {
+func printPartOne() {
 	fmt.Println("--- Part One ---")
 	elfs := GetElfList()
 
@@ -67,7 +67,7 @@ func PrintAnswerOne() {
 	fmt.Printf("The elf with the most calories is elf number %d with %d calories\n\n", elfs[0].Number, elfs[0].GetTotalCalories())
 }
 
-func PrintAnswerTwo() {
+func printPartTwo() {
 	fmt.Println("--- Part Two ---")
 	elfs := GetElfList()
 
@@ -77,6 +77,6 @@ func PrintAnswerTwo() {
 
 func PrintAnswer() {
 	fmt.Println("--- Day 1: Calorie Counting ---")
-	PrintAnswerOne()
-	PrintAnswerTwo()
+	printPartOne()
+	printPartTwo()
 }
