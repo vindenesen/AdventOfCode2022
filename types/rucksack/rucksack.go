@@ -73,6 +73,20 @@ func (r *Rucksack) String() string {
 		r.CompartmentOne.String(), r.CompartmentTwo.String())
 }
 
+func (r *Rucksack) GetAllItems() []*Item {
+	items := make([]*Item, 0)
+
+	for _, i := range r.CompartmentOne.Items {
+		items = append(items, i)
+	}
+
+	for _, i := range r.CompartmentTwo.Items {
+		items = append(items, i)
+	}
+
+	return items
+}
+
 // GetDuplicateItems
 // Returns the similarities
 // /*
