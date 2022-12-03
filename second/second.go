@@ -11,6 +11,7 @@ import (
 type Round struct {
 	Opponent *Hand
 	Me       *Hand
+	MyResult int
 }
 
 type Hand struct {
@@ -72,12 +73,16 @@ const (
 	ScoreWinner = 6
 	ScoreTie    = 3
 	ScoreLooser = 0
+
+	ResultMustWin   = 2
+	ResultMustTie   = 1
+	ResultMustLoose = 0
 )
 
-// GetScore
+// GetScorePartOne
 // Returns (my score, opponents score)
 // /*
-func (r *Round) GetScore() (int, int) {
+func (r *Round) GetScorePartOne() (int, int) {
 	myScore := ScoreLooser
 	opponentScore := ScoreLooser
 
@@ -95,6 +100,30 @@ func (r *Round) GetScore() (int, int) {
 		fmt.Println("   Tie, with score", myScore, opponentScore)
 	}
 	return myScore, opponentScore
+}
+
+func (r *Round) GetScorePartTwo() (int, int) {
+	if r.MyResult == ResultMustLoose {
+		if r.Opponent.Shape == Rock {
+			r.Me.Shape = Scissor
+		} else if r.Opponent.Shape == Paper {
+			r.Me.Shape = Rock
+		} else if r.Opponent.Shape == Scissor {
+			r.Me.Shape = Paper
+		}
+	} else if r.MyResult == ResultMustWin {
+		if r.Opponent.Shape == Rock {
+			r.Me.Shape = Paper
+		} else if r.Opponent.Shape == Paper {
+			r.Me.Shape = Scissor
+		} else if r.Opponent.Shape == Scissor {
+			r.Me.Shape = Rock
+		}
+	} else if r.MyResult == ResultMustTie {
+		r.Me.Shape = r.Opponent.Shape
+	}
+
+	return r.GetScorePartOne()
 }
 
 func (r *Round) String() string {
@@ -126,6 +155,7 @@ func GetRounds() []*Round {
 			letters := strings.Split(l, " ")
 			round.Opponent = parseOpponentHand(letters[0])
 			round.Me = parseMyHand(letters[1])
+			round.MyResult = parseHowRoundShouldEnd(letters[1])
 			rounds = append(rounds, &round)
 		}
 	}
@@ -155,13 +185,40 @@ func parseMyHand(char string) *Hand {
 	return nil
 }
 
-func CalculateScore(rounds []*Round) (int, int) {
+func parseHowRoundShouldEnd(char string) int {
+	if char == "X" {
+		return ResultMustLoose
+	} else if char == "Y" {
+		return ResultMustTie
+	} else if char == "Z" {
+		return ResultMustWin
+	}
+
+	return -1
+}
+
+func CalculateScorePartOne(rounds []*Round) (int, int) {
 	myScore := 0
 	opponentScore := 0
 
 	for _, r := range rounds {
 		fmt.Println("*", r)
-		me, opponent := r.GetScore()
+		me, opponent := r.GetScorePartOne()
+		myScore += me
+		opponentScore += opponent
+		fmt.Printf("Current scores, me %d, opponent %d\n", myScore, opponentScore)
+	}
+
+	return myScore, opponentScore
+}
+
+func CalculateScorePartTwo(rounds []*Round) (int, int) {
+	myScore := 0
+	opponentScore := 0
+
+	for _, r := range rounds {
+		fmt.Println("*", r)
+		me, opponent := r.GetScorePartTwo()
 		myScore += me
 		opponentScore += opponent
 		fmt.Printf("Current scores, me %d, opponent %d\n", myScore, opponentScore)
@@ -174,11 +231,21 @@ func printPartOne() {
 	fmt.Println("--- Part one ---")
 	rounds := GetRounds()
 	fmt.Println("Rounds", len(rounds))
-	myScore, opponentScore := CalculateScore(rounds)
+	myScore, opponentScore := CalculateScorePartOne(rounds)
 	fmt.Printf("My score will be %d (opponent %d)\n\n", myScore, opponentScore)
+}
+
+func printPartTwo() {
+	fmt.Println("--- Part two ---")
+	rounds := GetRounds()
+	fmt.Println("Rounds", len(rounds))
+	myScore, opponentScore := CalculateScorePartTwo(rounds)
+	fmt.Printf("My score will be %d (opponent %d)\n\n", myScore, opponentScore)
+
 }
 
 func PrintAnswer() {
 	fmt.Println("--- Day 2: Rock Paper Scissors ---")
 	printPartOne()
+	printPartTwo()
 }
