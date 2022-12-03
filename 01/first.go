@@ -57,5 +57,5 @@ func main() {
 	sort.Slice(elfs, func(i, j int) bool { return elfs[i].GetTotalCalories() > elfs[j].GetTotalCalories() })
 
 	// Print the elf with the most calories
-	fmt.Println(elfs[0].GetTotalCalories())
+	fmt.Printf("The elf with the most calories is elf number %d with %d calories\n", elfs[0].Number, elfs[0].GetTotalCalories())
 }
