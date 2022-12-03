@@ -34,34 +34,27 @@ func (h *Hand) String() string {
 func (h *Hand) Beats(opponent *Hand) int {
 	if h.Shape == Rock {
 		if opponent.Shape == Paper {
-			fmt.Println("    Rock looses over paper")
 			return Loose
 		}
 		if opponent.Shape == Scissor {
-			fmt.Println("    Rock wins over scissor")
 			return Win
 		}
 	} else if h.Shape == Scissor {
 		if opponent.Shape == Paper {
-			fmt.Println("    Scissor wins over paper")
 			return Win
 		}
 		if opponent.Shape == Rock {
-			fmt.Println("    Scissor looses over rock")
 			return Loose
 		}
 	} else if h.Shape == Paper {
 		if opponent.Shape == Scissor {
-			fmt.Println("    Paper looses over scissor ")
 			return Loose
 		}
 		if opponent.Shape == Rock {
-			fmt.Println("    Paper wins over rock")
 			return Win
 		}
 	}
 
-	fmt.Println("    Tie")
 	return Tie
 }
 
