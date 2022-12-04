@@ -1,13 +1,12 @@
 package main
 
 import (
-	"AdventOfCode2022/first"
-	"AdventOfCode2022/second"
-	"AdventOfCode2022/third"
+	"AdventOfCode2022/fourth"
 )
 
 func main() {
-	first.PrintAnswer()
-	second.PrintAnswer()
-	third.PrintAnswer()
+	//first.PrintAnswer()
+	//second.PrintAnswer()
+	//third.PrintAnswer()
+	fourth.PrintAnswer()
 }

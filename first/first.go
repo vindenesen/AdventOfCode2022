@@ -16,7 +16,7 @@ const listFile = "first/input"
 
 func GetElfList() []*elf.Elf {
 	// Make a slice containing our elf's
-	elfs := make([]*elf.Elf, 0)
+	elves := make([]*elf.Elf, 0)
 
 	// Open input data and read it
 	file, err := os.Open(listFile)
@@ -40,7 +40,7 @@ func GetElfList() []*elf.Elf {
 	elfCalories := strings.Split(content, "\n\n")
 	for elfId := 0; elfId < len(elfCalories); elfId++ {
 		newElf := elf.New(elfId)
-		elfs = append(elfs, newElf)
+		elves = append(elves, newElf)
 
 		for _, c := range strings.Split(elfCalories[elfId], "\n") {
 			if c != "" {
@@ -54,24 +54,24 @@ func GetElfList() []*elf.Elf {
 	}
 
 	// Sort list of elf's from the largest calorie count to the smallest
-	sort.Slice(elfs, func(i, j int) bool { return elfs[i].GetTotalCalories() > elfs[j].GetTotalCalories() })
+	sort.Slice(elves, func(i, j int) bool { return elves[i].GetTotalCalories() > elves[j].GetTotalCalories() })
 
-	return elfs
+	return elves
 }
 
 func printPartOne() {
 	fmt.Println("--- Part One ---")
-	elfs := GetElfList()
+	elves := GetElfList()
 
 	// Print the elf with the most calories
-	fmt.Printf("The elf with the most calories is elf number %d with %d calories\n\n", elfs[0].Number, elfs[0].GetTotalCalories())
+	fmt.Printf("The elf with the most calories is elf number %d with %d calories\n\n", elves[0].Number, elves[0].GetTotalCalories())
 }
 
 func printPartTwo() {
 	fmt.Println("--- Part Two ---")
-	elfs := GetElfList()
+	elves := GetElfList()
 
-	sum := elfs[0].GetTotalCalories() + elfs[1].GetTotalCalories() + elfs[2].GetTotalCalories()
+	sum := elves[0].GetTotalCalories() + elves[1].GetTotalCalories() + elves[2].GetTotalCalories()
 	fmt.Printf("The sum of calories which the three elf's with the most calories have is %d\n\n", sum)
 }
 
